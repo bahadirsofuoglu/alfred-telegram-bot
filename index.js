@@ -1,6 +1,6 @@
 const { Telegraf } = require('telegraf')
 require('dotenv').config()
-const { fetchWeather } = require('./weather.js')
+const { fetchWeather } = require('./function/weather.js')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -8,7 +8,7 @@ bot.start(ctx => ctx.reply('Merhaba'))
 
 bot.on('photo', ctx => ctx.reply('Fena değil'))
 bot.hears('merhaba alfred', ctx =>
-  ctx.reply(`Merhaba Efendi ${ctx.from.first}`)
+  ctx.reply(`Merhaba Efendi ${ctx.from.first_name}`)
 )
 bot.command('havadurumu', async ctx => {
   cityName = ctx.message.text.replace('/havadurumu ', '')
@@ -23,6 +23,12 @@ bot.command('havadurumu', async ctx => {
       Açıklama: ${weather.data.weather[0].description} 
       (öhöm pardon bazen İngilizceye kaçabiliyorum)`
   )
+})
+bot.use(async ctx => {
+  const message = ctx.message.text
+  if (message === message.toUpperCase()) {
+    ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
+  }
 })
 bot.launch()
 
