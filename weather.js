@@ -3,7 +3,7 @@ const axios = require('axios')
 const fetchWeather = async cityName => {
   try {
     return await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.WEATHER_API_KEY}`
+      `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.WEATHER_API_KEY}&units=metric`
     )
   } catch (error) {
     console.error(error)
