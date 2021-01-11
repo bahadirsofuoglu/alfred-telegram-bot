@@ -1,7 +1,7 @@
 const { Telegraf } = require('telegraf')
 require('dotenv').config()
 const { fetchWeather } = require('./function/weather.js')
-const { fetchNews } = require('./function/news.js')
+const { fetchNews, randomNews } = require('./function/news.js')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -16,6 +16,9 @@ bot.hears('merhaba alfred', ctx =>
   ctx.reply(`Merhaba Efendi ${ctx.from.first_name}`)
 )
 
+bot.hears('selamın aleykum', ctx =>
+  ctx.reply(`Aleykum Selam comar Efendi ${ctx.from.first_name}`)
+)
 bot.command('alfred', async ctx => {
   ctx.reply(
     ` Merhaba Efendi ${ctx.from.first_name} acıktınız mı ? Günlük raporu almak isterseniz şunları kullanabilirsiniz:
@@ -36,12 +39,20 @@ bot.command('havadurumu', async ctx => {
       (öhöm pardon bazen İngilizceye kaçabiliyorum)`
   )
 })
-bot.use(async ctx => {
+// todo: ı will added news from function folder
+/* bot.command('haberler', async ctx => {
+  const news = await fetchNews()
+  const newsArray = news.data.articles
+  console.log(randomNews(0, newsArray.length - 1))
+  console.log(newsArray[randomNews(0, newsArray.length - 1)])
+}) */
+bot.use(ctx => {
   const message = ctx.message.text
   if (message === message.toUpperCase()) {
     ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
   }
 })
+
 bot.launch()
 
 // Enable graceful stop
