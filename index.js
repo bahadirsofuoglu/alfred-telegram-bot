@@ -16,11 +16,11 @@ bot.command('havadurumu', async ctx => {
   const weather = await fetchWeather(cityName)
   console.log(weather.data)
   ctx.reply(
-    ` Efendi ${ctx.from.first_name} ${cityName} şehrinde hava durumu şöyle
-      Sıcaklık:${weather.data.main.temp}derece
-      Hissedilen Sıcaklık:${weather.data.main.feels_like}derece
-      Nem:${weather.data.main.humidity} 
-      Açıklama:${weather.data.weather[0].main} 
+    ` Efendi ${ctx.from.first_name} ${cityName} şehrinde hava durumu şöyle:
+      Sıcaklık: ${weather.data.main.temp}
+      Hissedilen Sıcaklık: ${weather.data.main.feels_like}
+      Nem: ${weather.data.main.humidity} 
+      Açıklama: ${weather.data.weather[0].description} 
       (öhöm pardon bazen İngilizceye kaçabiliyorum)`
   )
 })
