@@ -10,7 +10,7 @@ const SECRET_PATH = '/my-secret-path'
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 app.register(telegrafPlugin, { bot, path: SECRET_PATH })
-
+app.register(require('fastify-cors'))
 bot.start(ctx =>
   ctx.reply(
     'Merhaba Ben Alfred /alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
