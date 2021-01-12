@@ -1,2 +1,2 @@
 # alfred-telegram-bot
-It is a simple telegram bot sample.
+Alfred is a bot that you can add to telegram groups. He can give you the weather of the city you want. He can bring you a random one of the latest news. He can provide some control in chat. It is Turkish for now (to use with my friends) but in the future the English version will come.
