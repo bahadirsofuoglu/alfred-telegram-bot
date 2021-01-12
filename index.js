@@ -10,11 +10,15 @@ const { fetchNews, randomNews } = require('./functions/news.js')
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
 
-bot.start(ctx =>
+bot.start(ctx => {
   ctx.reply(
     'Merhaba Ben Alfred /alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
   )
-)
+
+  bot.telegram.setWebhook(
+    `https://${GOOGLE_CLOUD_REGION}-${GOOGLE_CLOUD_PROJECT_ID}.cloudfunctions.net/${process.env.FUNCTION_TARGET}` //FUNCTION_TARGET is reserved Google Cloud Env
+  )
+})
 
 bot.on('photo', ctx => ctx.reply('Fena değil'))
 
@@ -79,9 +83,6 @@ bot.use(ctx => {
 
 bot.launch()
 
-bot.telegram.setWebhook(
-  `https://${GOOGLE_CLOUD_REGION}-${GOOGLE_CLOUD_PROJECT_ID}.cloudfunctions.net/${process.env.FUNCTION_TARGET}` //FUNCTION_TARGET is reserved Google Cloud Env
-)
 exports.telegramBotWebhook = (req, res) => {
   bot.handleUpdate(req.body, res)
 }
