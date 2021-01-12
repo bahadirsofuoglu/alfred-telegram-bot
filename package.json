@@ -11,9 +11,6 @@
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
-    "fastify": "^3.9.2",
-    "fastify-cors": "^5.1.0",
-    "fastify-telegraf": "^1.0.1",
     "firebase-admin": "^9.4.2",
     "firebase-functions": "^3.13.0",
     "telegraf": "^3.38.0"

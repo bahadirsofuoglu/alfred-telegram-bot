@@ -5,8 +5,8 @@ const {
   TELEGRAM_BOT_TOKEN,
   GOOGLE_CLOUD_REGION
 } = process.env
-const { fetchWeather } = require('./function/weather.js')
-const { fetchNews, randomNews } = require('./function/news.js')
+const { fetchWeather } = require('./functions/weather.js')
+const { fetchNews, randomNews } = require('./functions/news.js')
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
 
