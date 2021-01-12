@@ -1,15 +1,14 @@
-const app = require('fastify')()
 const { Telegraf } = require('telegraf')
-const telegrafPlugin = require('fastify-telegraf')
-require('dotenv').config()
+
+const {
+  GOOGLE_CLOUD_PROJECT_ID,
+  TELEGRAM_BOT_TOKEN,
+  GOOGLE_CLOUD_REGION
+} = process.env
 const { fetchWeather } = require('./function/weather.js')
 const { fetchNews, randomNews } = require('./function/news.js')
 
-const PORT = process.env.PORT || 3000
-const SECRET_PATH = '/my-secret-path'
-
-const bot = new Telegraf(process.env.BOT_TOKEN)
-app.register(telegrafPlugin, { bot, path: SECRET_PATH })
+const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
 
 bot.start(ctx =>
   ctx.reply(
@@ -76,6 +75,9 @@ bot.use(ctx => {
 
 bot.launch()
 
-app.listen(PORT, () => {
-  console.log('Start listening on port', PORT)
-})
+bot.telegram.setWebhook(
+  `https://${GOOGLE_CLOUD_REGION}-${GOOGLE_CLOUD_PROJECT_ID}.cloudfunctions.net/${process.env.FUNCTION_TARGET}` //FUNCTION_TARGET is reserved Google Cloud Env
+)
+exports.telegramBotWebhook = (req, res) => {
+  bot.handleUpdate(req.body, res)
+}
