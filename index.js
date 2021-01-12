@@ -1,10 +1,15 @@
+const app = require('fastify')()
 const { Telegraf } = require('telegraf')
-const { Markup } = Telegraf
+const telegrafPlugin = require('fastify-telegraf')
 require('dotenv').config()
 const { fetchWeather } = require('./function/weather.js')
 const { fetchNews, randomNews } = require('./function/news.js')
 
+const PORT = process.env.PORT || 3000
+const SECRET_PATH = '/my-secret-path'
+
 const bot = new Telegraf(process.env.BOT_TOKEN)
+app.register(telegrafPlugin, { bot, path: SECRET_PATH })
 
 bot.start(ctx =>
   ctx.reply(
@@ -13,6 +18,7 @@ bot.start(ctx =>
 )
 
 bot.on('photo', ctx => ctx.reply('Fena değil'))
+
 bot.hears('merhaba alfred', ctx =>
   ctx.reply(`Merhaba Efendi ${ctx.from.first_name}`)
 )
@@ -28,6 +34,7 @@ bot.hears('!alfred', async ctx => {
 yakında daha detaylı bir rapor sunabileceğim..`
   )
 })
+
 bot.command('havadurumu', async ctx => {
   cityName = ctx.message.text.replace('/havadurumu ', '')
   try {
@@ -57,6 +64,7 @@ bot.command('haberler', async ctx => {
       `
   )
 })
+
 bot.use(ctx => {
   if (ctx.message.text) {
     const message = ctx.message.text
@@ -68,6 +76,6 @@ bot.use(ctx => {
 
 bot.launch()
 
-// Enable graceful stop
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+app.listen(PORT, () => {
+  console.log('Start listening on port', PORT)
+})
