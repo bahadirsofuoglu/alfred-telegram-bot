@@ -1,4 +1,5 @@
 const { Telegraf } = require('telegraf')
+const { Markup } = Telegraf
 require('dotenv').config()
 const { fetchWeather } = require('./function/weather.js')
 const { fetchNews, randomNews } = require('./function/news.js')
@@ -36,7 +37,7 @@ bot.command('havadurumu', async ctx => {
       Hissedilen Sıcaklık: ${weather.data.main.feels_like}
       Nem: ${weather.data.main.humidity} 
       Açıklama: ${weather.data.weather[0].description} 
-      (öhöm pardon bazen İngilizceye kaçabiliyorum)`
+(öhöm pardon bazen İngilizceye kaçabiliyorum)`
   )
 })
 // todo: ı will added news from function folder
@@ -47,9 +48,11 @@ bot.command('havadurumu', async ctx => {
   console.log(newsArray[randomNews(0, newsArray.length - 1)])
 }) */
 bot.use(ctx => {
-  const message = ctx.message.text
-  if (message === message.toUpperCase()) {
-    ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
+  if (ctx.message.text) {
+    const message = ctx.message.text
+    if (message === message.toUpperCase()) {
+      ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
+    }
   }
 })
 
