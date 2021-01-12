@@ -1,16 +1,15 @@
-const app = require('fastify')()
 const { Telegraf } = require('telegraf')
-const telegrafPlugin = require('fastify-telegraf')
-require('dotenv').config()
+
+const {
+  GOOGLE_CLOUD_PROJECT_ID,
+  TELEGRAM_BOT_TOKEN,
+  GOOGLE_CLOUD_REGION
+} = process.env
 const { fetchWeather } = require('./function/weather.js')
 const { fetchNews, randomNews } = require('./function/news.js')
 
-const PORT = process.env.PORT || 3000
-const SECRET_PATH = '/my-secret-path'
+const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
-app.register(telegrafPlugin, { bot, path: SECRET_PATH })
-app.register(require('fastify-cors'))
 bot.start(ctx =>
   ctx.reply(
     'Merhaba Ben Alfred /alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
@@ -66,16 +65,23 @@ bot.command('haberler', async ctx => {
 })
 
 bot.use(ctx => {
-  if (ctx.message.text) {
-    const message = ctx.message.text
-    if (message === message.toUpperCase()) {
-      ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
+  try {
+    if (ctx.message.text) {
+      const message = ctx.message.text
+      if (message === message.toUpperCase()) {
+        ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
+      }
     }
+  } catch (error) {
+    console.log(console.error())
   }
 })
 
 bot.launch()
 
-app.listen(PORT, () => {
-  console.log('Start listening on port', PORT)
-})
+bot.telegram.setWebhook(
+  `https://${GOOGLE_CLOUD_REGION}-${GOOGLE_CLOUD_PROJECT_ID}.cloudfunctions.net/${process.env.FUNCTION_TARGET}` //FUNCTION_TARGET is reserved Google Cloud Env
+)
+exports.telegramBotWebhook = (req, res) => {
+  bot.handleUpdate(req.body, res)
+}
