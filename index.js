@@ -5,8 +5,7 @@ const {
   TELEGRAM_BOT_TOKEN,
   GOOGLE_CLOUD_REGION
 } = process.env
-const command = require('./controllers/commandController')
-const { fetchNews, randomNews } = require('./functions/news.js')
+const commands = require('./controllers/commands')
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
 
@@ -25,7 +24,7 @@ bot.hears('merhaba alfred', ctx =>
 bot.hears('selamın aleykum', ctx =>
   ctx.reply(`Aleykum Selam comar Efendi ${ctx.from.first_name}`)
 )
-bot.hears('!alfred', async ctx => {
+bot.hears('!alfred', ctx => {
   ctx.reply(
     ` Merhaba Efendi ${ctx.from.first_name} acıktınız mı ? Günlük raporu almak isterseniz şunları kullanabilirsiniz:
      Hava Durumu: /havadurumu şehir_ismi
@@ -34,18 +33,8 @@ yakında daha detaylı bir rapor sunabileceğim..`
   )
 })
 
-bot.command('havadurumu', command.weather)
-bot.command('haberler', async ctx => {
-  const news = await fetchNews()
-  const newsArray = news.data.articles
-  const selectedNew = newsArray[randomNews(0, newsArray.length - 1)]
-
-  ctx.reply(
-    ` Efendi ${ctx.from.first_name} gazeteyle uğraşmanızı istemem size güncel haberlerden rastgele birini gösteriyorum:
-      Site: ${selectedNew.url} 
-      `
-  )
-})
+bot.command('havadurumu', commands.weather)
+bot.command('haberler', commands.news)
 
 bot.use(ctx => {
   try {
@@ -69,5 +58,6 @@ bot.telegram.setWebhook(
 exports.alfredTelegramBot = (req, res) => {
   bot.handleUpdate(req.body, res)
 }
-
-// todo: deploy scriptine yardım iste!
+/* exports.alfredTelegramBot = functions.https.onRequest((req, res) =>
+  bot.handleUpdate(req.body, res)
+) */
