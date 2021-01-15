@@ -1,11 +1,11 @@
 const { Telegraf } = require('telegraf')
-
+require('dotenv').config()
 const {
   GOOGLE_CLOUD_PROJECT_ID,
   TELEGRAM_BOT_TOKEN,
   GOOGLE_CLOUD_REGION
 } = process.env
-const { fetchWeather } = require('./functions/weather.js')
+const command = require('./controllers/commandController')
 const { fetchNews, randomNews } = require('./functions/news.js')
 
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
@@ -34,24 +34,7 @@ yakında daha detaylı bir rapor sunabileceğim..`
   )
 })
 
-bot.command('havadurumu', async ctx => {
-  cityName = ctx.message.text.replace('/havadurumu ', '')
-  try {
-    const weather = await fetchWeather(cityName)
-
-    ctx.reply(
-      ` Efendi ${ctx.from.first_name} ${cityName} şehrinde hava durumu şöyle:
-        Sıcaklık: ${weather.data.main.temp}
-        Hissedilen Sıcaklık: ${weather.data.main.feels_like}
-        Nem: ${weather.data.main.humidity} 
-        Açıklama: ${weather.data.weather[0].description} 
-  (öhöm pardon bazen İngilizceye kaçabiliyorum)`
-    )
-  } catch (error) {
-    ctx.reply(` Efendi ${ctx.from.first_name} şehir isimlerini mi unuttunuz ? `)
-    console.log(error)
-  }
-})
+bot.command('havadurumu', command.weather)
 bot.command('haberler', async ctx => {
   const news = await fetchNews()
   const newsArray = news.data.articles
@@ -76,7 +59,9 @@ bot.use(ctx => {
     console.log(console.error())
   }
 })
-
+/* bot.catch((err, ctx) => {
+  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
+}) */
 bot.launch()
 bot.telegram.setWebhook(
   `https://${GOOGLE_CLOUD_REGION}-${GOOGLE_CLOUD_PROJECT_ID}.cloudfunctions.net/${process.env.FUNCTION_TARGET}` //FUNCTION_TARGET is reserved Google Cloud Env
@@ -84,3 +69,5 @@ bot.telegram.setWebhook(
 exports.alfredTelegramBot = (req, res) => {
   bot.handleUpdate(req.body, res)
 }
+
+// todo: deploy scriptine yardım iste!
