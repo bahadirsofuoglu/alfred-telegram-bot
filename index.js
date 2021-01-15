@@ -6,7 +6,7 @@ const {
   GOOGLE_CLOUD_REGION
 } = process.env
 const commands = require('./controllers/commands')
-
+const hears = require('./controllers/hears')
 const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
 
 bot.start(ctx => {
@@ -14,24 +14,10 @@ bot.start(ctx => {
     'Merhaba Ben Alfred /alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
   )
 })
-
 bot.on('photo', ctx => ctx.reply('Fena değil'))
 
-bot.hears('merhaba alfred', ctx =>
-  ctx.reply(`Merhaba Efendi ${ctx.from.first_name}`)
-)
-
-bot.hears('selamın aleykum', ctx =>
-  ctx.reply(`Aleykum Selam comar Efendi ${ctx.from.first_name}`)
-)
-bot.hears('!alfred', ctx => {
-  ctx.reply(
-    ` Merhaba Efendi ${ctx.from.first_name} acıktınız mı ? Günlük raporu almak isterseniz şunları kullanabilirsiniz:
-     Hava Durumu: /havadurumu şehir_ismi
-     Haberler: /haberler 
-yakında daha detaylı bir rapor sunabileceğim..`
-  )
-})
+bot.hears('merhaba alfred', hears.hello)
+bot.hears('!alfred', hears.alfred)
 
 bot.command('havadurumu', commands.weather)
 bot.command('haberler', commands.news)
@@ -48,6 +34,7 @@ bot.use(ctx => {
     console.log(console.error())
   }
 })
+
 /* bot.catch((err, ctx) => {
   console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
 }) */
