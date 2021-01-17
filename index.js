@@ -1,10 +1,12 @@
-const { Composer } = require('micro-bot')
-require('dotenv').config()
+const { Composer, Telegraf } = require('micro-bot')
 
+require('dotenv').config()
+const { NODE_ENV, TELEGRAM_BOT_TOKEN_LOCAL } = process.env
 const commands = require('./controllers/commands')
 const hears = require('./controllers/hears')
-const bot = new Composer()
 
+const bot =
+  NODE_ENV === 'local' ? new Telegraf(TELEGRAM_BOT_TOKEN_LOCAL) : new Composer()
 bot.start(ctx => {
   ctx.reply(
     'Merhaba Ben Alfred /alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
@@ -30,7 +32,12 @@ bot.use(ctx => {
     console.log(console.error())
   }
 })
-module.exports = bot
+
+if (NODE_ENV === 'local') {
+  bot.launch()
+} else {
+  module.exports = bot
+}
 
 // todo: bot.catch will add to project for try-catch
 /* bot.catch((err, ctx) => {
