@@ -4,6 +4,7 @@ require('dotenv').config()
 const { NODE_ENV, TELEGRAM_BOT_TOKEN_LOCAL } = process.env
 const commands = require('./controllers/commands')
 const hears = require('./controllers/hears')
+const use = require('./controllers/use')
 
 const bot =
   NODE_ENV === 'local' ? new Telegraf(TELEGRAM_BOT_TOKEN_LOCAL) : new Composer()
@@ -20,17 +21,13 @@ bot.hears('!alfred', hears.alfred)
 bot.command('havadurumu', commands.weather)
 bot.command('haberler', commands.news)
 
-bot.use(ctx => {
-  try {
-    if (ctx.message.text) {
-      const message = ctx.message.text
-      if (message === message.toUpperCase()) {
-        ctx.reply(`Efendi ${ctx.from.first_name} lütfen biraz sakin olalım`)
-      }
-    }
-  } catch (error) {
-    console.log(console.error())
-  }
+bot.use(use.upperCaseControl)
+
+bot.catch((err, ctx) => {
+  ctx.reply(
+    `Efendi ${ctx.from.first_name}, bazı insanlar dünyanın yanışını izlemek ister. Bu komutu yanlış kullanarak bana o insanları hatırlatıyorsunuz..`
+  )
+  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
 })
 
 if (NODE_ENV === 'local') {
@@ -38,8 +35,3 @@ if (NODE_ENV === 'local') {
 } else {
   module.exports = bot
 }
-
-// todo: bot.catch will add to project for try-catch
-/* bot.catch((err, ctx) => {
-  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
-}) */
