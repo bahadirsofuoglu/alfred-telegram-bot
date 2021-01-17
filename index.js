@@ -1,4 +1,4 @@
-const { Telegraf } = require('telegraf')
+const { Composer } = require('micro-bot')
 require('dotenv').config()
 const {
   GOOGLE_CLOUD_PROJECT_ID,
@@ -8,7 +8,7 @@ const {
 } = process.env
 const commands = require('./controllers/commands')
 const hears = require('./controllers/hears')
-const bot = new Telegraf(TELEGRAM_BOT_TOKEN)
+const bot = new Composer()
 
 bot.start(ctx => {
   ctx.reply(
@@ -35,8 +35,9 @@ bot.use(ctx => {
     console.log(console.error())
   }
 })
+module.exports = bot
 
-if (NODE_ENV === 'production') {
+/* if (NODE_ENV === 'production') {
   bot.telegram.setWebhook(
     `https://${GOOGLE_CLOUD_REGION}-${GOOGLE_CLOUD_PROJECT_ID}.cloudfunctions.net/${process.env.FUNCTION_TARGET}`
   )
@@ -45,7 +46,7 @@ if (NODE_ENV === 'production') {
   }
 } else {
   bot.launch()
-}
+} */
 
 // todo: bot.catch will add to project for try-catch
 /* bot.catch((err, ctx) => {
