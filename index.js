@@ -10,12 +10,12 @@ const bot =
   NODE_ENV === 'local' ? new Telegraf(TELEGRAM_BOT_TOKEN_LOCAL) : new Composer()
 bot.start(ctx => {
   ctx.reply(
-    'Merhaba Ben Alfred /alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
+    'Merhaba Ben Alfred !alfred komutunu kullanarak benden yardım isteyebilirsiniz o zamana kadar mutfakta olacağım'
   )
 })
 bot.on('photo', ctx => ctx.reply('Fena değil'))
 
-bot.hears('merhaba alfred', hears.hello)
+bot.hears('Merhaba alfred', hears.hello)
 bot.hears('!alfred', hears.alfred)
 
 bot.command('havadurumu', commands.weather)
