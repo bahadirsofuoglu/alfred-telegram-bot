@@ -27,14 +27,10 @@ bot.command('haberler', commands.news)
 
 bot.use(use.upperCaseControl)
 
-/* bot.catch((err, ctx) => {
-  ctx.reply(
-    `Efendi ${ctx.from.first_name}, bazı insanlar dünyanın yanışını izlemek ister. Bu komutu yanlış kullanarak bana o insanları hatırlatıyorsunuz..`
-  )
-  console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
-}) */
-
 if (NODE_ENV === 'local') {
+  bot.catch((err, ctx) => {
+    console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
+  })
   bot.launch()
 } else {
   module.exports = bot
