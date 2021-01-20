@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "micro-bot"
+    "start": "micro-bot",
+    "deploy":"cross-env NODE_ENV='deploy' git push heroku main",
+    "serve":"cross-env NODE_ENV='local' node index.js "
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "firebase-admin": "^9.4.2",
     "firebase-functions": "^3.13.0",
