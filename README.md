@@ -1,5 +1,5 @@
 # alfred-telegram-bot
-Alfred is a telegram boat. He was written with the Telegraf library. You can send you up-to-date news or send you the weather in the city you want. For now, he can only reply in Turkish. English version will be released in the future.
+Alfred is a telegram bot. He was written with the Telegraf library. You can send you up-to-date news or send you the weather in the city you want. For now, he can only reply in Turkish. English version will be released in the future.
 - [Alfred Demo](https://t.me/alfred_test1_bot)
 - [Telegraf Documentation](https://telegraf.js.org/)
 
