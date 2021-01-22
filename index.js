@@ -20,7 +20,9 @@ bot.start(ctx => {
 bot.on('photo', ctx => ctx.reply('Fena değil'))
 
 bot.hears('Merhaba alfred', hears.hello)
+bot.hears('merhaba alfred', hears.hello)
 bot.hears('!alfred', hears.alfred)
+bot.hears('alfred', hears.alfred)
 
 bot.command('havadurumu', commands.weather)
 bot.command('haberler', commands.news)
