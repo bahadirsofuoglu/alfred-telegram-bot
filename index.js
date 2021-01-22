@@ -26,6 +26,7 @@ bot.hears('alfred', hears.alfred)
 
 bot.command('havadurumu', commands.weather)
 bot.command('haberler', commands.news)
+bot.command('doviz', commands.exchange)
 
 bot.use(use.upperCaseControl)
 

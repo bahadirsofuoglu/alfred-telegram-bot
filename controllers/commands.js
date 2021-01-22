@@ -1,5 +1,6 @@
 const { fetchWeather } = require('../helpers/weather.js')
 const { fetchNews, randomNews } = require('../helpers/news')
+const { fetchExchange } = require('../helpers/exchange')
 exports.weather = async ctx => {
   cityName = ctx.message.text.replace('/havadurumu ', '')
 
@@ -22,6 +23,15 @@ exports.news = async ctx => {
   ctx.reply(
     ` Efendi ${ctx.from.first_name} gazeteyle uğraşmanızı istemem size güncel haberlerden rastgele birini gösteriyorum:
       Site: ${selectedNew.url} 
+      `
+  )
+}
+exports.exchange = async ctx => {
+  const exchanges = await fetchExchange()
+  console.log(exchanges)
+  ctx.reply(
+    ` Efendi ${ctx.from.first_name} gazeteyle uğraşmanızı istemem size güncel haberlerden rastgele birini gösteriyorum:
+      Site: ${exchanges.rates} 
       `
   )
 }
