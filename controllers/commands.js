@@ -1,6 +1,6 @@
 const { fetchWeather } = require('../helpers/weather.js')
 const { fetchNews, randomNews } = require('../helpers/news')
-const { fetchExchange } = require('../helpers/exchange')
+const { fetchUsd, fetchEuro, fetchPound } = require('../helpers/exchange')
 exports.weather = async ctx => {
   cityName = ctx.message.text.replace('/havadurumu ', '')
 
@@ -27,11 +27,15 @@ exports.news = async ctx => {
   )
 }
 exports.exchange = async ctx => {
-  const exchanges = await fetchExchange()
-  console.log(exchanges)
+  const usd = await fetchUsd()
+  const euro = await fetchEuro()
+  const pound = await fetchPound()
+
   ctx.reply(
-    ` Efendi ${ctx.from.first_name} gazeteyle uğraşmanızı istemem size güncel haberlerden rastgele birini gösteriyorum:
-      Site: ${exchanges.rates} 
+    ` Efendi ${ctx.from.first_name} size güncel döviz kurlarından en önemlilerini gösteriyorum:
+      Dolar: ${usd.data.rates.TRY} 
+      Euro: ${euro.data.rates.TRY} 
+      Pound: ${pound.data.rates.TRY} 
       `
   )
 }
