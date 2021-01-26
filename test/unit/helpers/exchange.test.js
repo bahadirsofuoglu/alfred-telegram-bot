@@ -41,3 +41,23 @@ describe('Exhange fetch Euro', () => {
     expect(exchengeUsdResponse).toEqual(undefined)
   })
 })
+
+describe('Exhange fetch Pound', () => {
+  test('Is this a function', () => {
+    expect(typeof exchange.fetchPound).toBe('function')
+  })
+  test('return Euro data', async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        base: 'GBP'
+      }
+    })
+    const exchengeUsdResponse = await exchange.fetchPound()
+    expect(exchengeUsdResponse.data.base).toEqual('GBP')
+  })
+  test('if throw error', async () => {
+    axios.get.mockReturnValue(undefined)
+    const exchengeUsdResponse = await exchange.fetchPound()
+    expect(exchengeUsdResponse).toEqual(undefined)
+  })
+})
