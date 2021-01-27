@@ -22,12 +22,12 @@ describe('Testing News api', () => {
     const catchResponse = await news.fetchNews()
     expect(catchResponse).toEqual(undefined)
   })
-  test('Random function testing', async () => {
-    const mockRandomNumber = jest.spyOn(Math, 'random')
-    const randomNumber = await news.randomNews(0, 5)
+  test('RandomNumber function testing', async () => {
+    const spyRandomNumber = jest.spyOn(Math, 'random')
+    const randomNumber = await news.randomNumber(0, 5)
 
     expect(randomNumber).toBeGreaterThanOrEqual(0)
     expect(randomNumber).toBeLessThanOrEqual(5)
-    expect(mockRandomNumber).toHaveBeenCalled()
+    expect(spyRandomNumber).toHaveBeenCalled()
   })
 })

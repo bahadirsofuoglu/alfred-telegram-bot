@@ -10,10 +10,10 @@ const fetchNews = async () => {
   }
 }
 
-const randomNews = (min, max) => {
+const randomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 module.exports = {
   fetchNews,
-  randomNews
+  randomNumber
 }
