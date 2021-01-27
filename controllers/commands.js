@@ -1,5 +1,5 @@
 const { fetchWeather } = require('../helpers/weather.js')
-const { fetchNews, randomNews } = require('../helpers/news')
+const { fetchNews, randomNumber } = require('../helpers/news')
 const { fetchUsd, fetchEuro, fetchPound } = require('../helpers/exchange')
 exports.weather = async ctx => {
   cityName = ctx.message.text.replace('/havadurumu ', '')
@@ -18,7 +18,7 @@ exports.weather = async ctx => {
 exports.news = async ctx => {
   const news = await fetchNews()
   const newsArray = news.data.articles
-  const selectedNew = newsArray[randomNews(0, newsArray.length - 1)]
+  const selectedNew = newsArray[randomNumber(0, newsArray.length - 1)]
 
   ctx.reply(
     ` Efendi ${ctx.from.first_name} gazeteyle uğraşmanızı istemem size güncel haberlerden rastgele birini gösteriyorum:
