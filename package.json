@@ -6,7 +6,7 @@
   "scripts": {
     "start": "micro-bot",
     "test-dev": "jest",
-    "deploy": "cross-env NODE_ENV='deploy' git push heroku main",
+    "deploy": "npm run test-dev && cross-env NODE_ENV='deploy' git push heroku main",
     "serve": "cross-env NODE_ENV='local' node index.js "
   },
   "author": "",
