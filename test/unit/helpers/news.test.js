@@ -1,14 +1,13 @@
 const news = require('../../../helpers/news')
-const mockRandom = require('jest-mock-random')
-
 const axios = require('axios')
+
 jest.mock('axios')
 
 describe('Testing News api', () => {
   test('is this a function', () => {
     expect(typeof news.fetchNews).toBe('function')
   })
-  test('Should be return status ok!', async () => {
+  test('Should be status return ok!', async () => {
     axios.get.mockResolvedValue({
       data: {
         status: 'ok'
