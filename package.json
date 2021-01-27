@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "firebase-admin": "^9.4.2",
     "firebase-functions": "^3.13.0",
+    "jest-mock-random": "^1.1.1",
     "micro-bot": "^2.5.3",
     "telegraf": "^3.38.0"
   },
