@@ -1,4 +1,4 @@
-const weather = require('../../../helpers/weather')
+const weather = require('../../helpers/weather')
 const axios = require('axios')
 
 jest.mock('axios')

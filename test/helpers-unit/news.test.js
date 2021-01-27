@@ -1,4 +1,4 @@
-const news = require('../../../helpers/news')
+const news = require('../../helpers/news')
 const axios = require('axios')
 
 jest.mock('axios')

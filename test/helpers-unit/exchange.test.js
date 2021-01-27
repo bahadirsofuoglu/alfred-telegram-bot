@@ -1,4 +1,4 @@
-const exchange = require('../../../helpers/exchange')
+const exchange = require('../../helpers/exchange')
 const axios = require('axios')
 jest.mock('axios')
 
